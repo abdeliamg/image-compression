@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+.item {
+    display: block;
+    margin: 15px;
+    background-color: #39d180;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+</style>
+</head>
+<body dir='rtl'>
+
+<h1 align='center'>خدمات عبد المنعم</h1>
+<div>
+<h3>ضغط الملفات</h3>
+<h3>اختر الملف:</h3>
+<div class='item'>
+<input type='file' id='file' accept='image/*'>
+</div>
+<div class='item'>
+نسبة الضغط(%):
+0
+<input type='range' id='number' onchange='preview()'>
+100
+</div>
+<br>
+
+<div class='item'>
+<a id='download' onclick='down(this)' download style='cursor: pointer;background-color: beige;padding: 5px;border-radius: 10px;margin-right: 38%;'>تحميل الصورة</a>
+</div>
+<div class='item'>
+<div>الحجم</div>
+<div id='size'></div>
+</div>
+<div class='item'>
+<img id='dimg'>
+
+<div id='content'>
+
+</div>
+</div>
+</div>
+
+<script>
+
+dimg = document.getElementById('dimg');
+
+canvas = document.createElement('canvas');
+img = document.createElement('img');
+function preview(){
+value1 = document.getElementById('number').value;
+
+file = document.getElementById('file').files[0];
+fr = new FileReader();
+
+fr.onload = function(){
+
+img.onload = function(){
+
+canvas.width = img.width * value1/100;
+canvas.height = img.height * value1/100;
+
+ctx = canvas.getContext('2d');
+
+ctx.drawImage(img,0,0, canvas.width,canvas.height);
+
+dimg.src = canvas.toDataURL("image/jpeg",value1/100);
+
+size = document.getElementById('size');
+size.innerHTML = Math.round(dimg.src.length * 3 / 4)*0.001;
+
+}
+
+img.src = fr.result;
+
+
+
+
+}
+fr.readAsDataURL(file);
+
+
+}
+function down(x){
+x.href = canvas.toDataURL("image/jpeg",value1/100);
+}
+
+
+</script>
+</body>
+</html>
